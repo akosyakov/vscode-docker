@@ -1,6 +1,6 @@
 {
     "name": "vscode-docker",
-    "version": "1.12.5-alpha",
+    "version": "1.15.5-alpha",
     "publisher": "ms-azuretools",
     "displayName": "Docker",
     "description": "Makes it easy to create, manage, and debug containerized applications.",
@@ -58,6 +58,7 @@
         "onCommand:vscode-docker.images.build",
         "onCommand:vscode-docker.images.configureExplorer",
         "onCommand:vscode-docker.images.inspect",
+        "onCommand:vscode-docker.images.showDangling",
         "onCommand:vscode-docker.images.prune",
         "onCommand:vscode-docker.images.pull",
         "onCommand:vscode-docker.images.push",
@@ -287,6 +288,11 @@
                 },
                 {
                     "command": "vscode-docker.images.prune",
+                    "when": "view == dockerImages && !vscode-docker:newSdkContext",
+                    "group": "navigation@2"
+                },
+                {
+                    "command": "vscode-docker.images.showDangling",
                     "when": "view == dockerImages && !vscode-docker:newSdkContext",
                     "group": "navigation@2"
                 },
@@ -739,6 +745,10 @@
                                     "localRoot": {
                                         "type": "string",
                                         "description": "%vscode-docker.debug.node.localRoot%"
+                                    },
+                                    "package": {
+                                        "type": "string",
+                                        "description": "%vscode-docker.debug.node.package%"
                                     },
                                     "remoteRoot": {
                                         "type": "string",
@@ -2162,6 +2172,12 @@
                     ],
                     "description": "%vscode-docker.config.docker.languageserver.diagnostics.instructionWorkdirRelative%"
                 },
+                "docker.languageserver.formatter.ignoreMultilineInstructions": {
+                    "scope": "resource",
+                    "type": "boolean",
+                    "default": false,
+                    "description": "%vscode-docker.config.docker.languageserver.formatter.ignoreMultilineInstructions%"
+                },
                 "docker.dockerComposeBuild": {
                     "type": "boolean",
                     "default": true,
@@ -2185,6 +2201,12 @@
                     "type": "boolean",
                     "default": true,
                     "description": "%vscode-docker.config.docker.showStartPage%"
+                },
+                "docker.dockerPath": {
+                    "type": "string",
+                    "default": "docker",
+                    "description": "%vscode-docker.config.docker.dockerPath%",
+                    "scope": "machine-overridable"
                 }
             }
         },
@@ -2349,6 +2371,12 @@
                 "title": "%vscode-docker.commands.images.prune%",
                 "category": "%vscode-docker.commands.category.dockerImages%",
                 "icon": "$(clear-all)"
+            },
+            {
+                "command": "vscode-docker.images.showDangling",
+                "title": "%vscode-docker.commands.images.showDangling%",
+                "category": "%vscode-docker.commands.category.dockerImages%",
+                "icon": "$(outline-view-icon)"
             },
             {
                 "command": "vscode-docker.images.pull",
@@ -2697,6 +2725,9 @@
     "engines": {
         "vscode": "^1.55.0"
     },
+    "capabilities": {
+        "virtualWorkspaces": false
+    },
     "scripts": {
         "vscode:prepublish": "npm run package",
         "compile": "webpack",
@@ -2726,16 +2757,16 @@
         "@types/xml2js": "^0.4.8",
         "@typescript-eslint/eslint-plugin": "^4.21.0",
         "@typescript-eslint/parser": "^4.21.0",
-        "copy-webpack-plugin": "^8.1.1",
+        "@vscode/codicons": "^0.0.20",
+        "@vscode/test-electron": "^1.6.1",
+        "copy-webpack-plugin": "^9.0.1",
         "eslint": "^7.24.0",
-        "mocha": "^8.2.1",
-        "ts-loader": "^8.0.14",
+        "mocha": "^9.0.2",
+        "ts-loader": "^9.2.3",
         "typescript": "^4.2.4",
         "umd-compat-loader": "^2.1.2",
-        "vsce": "^1.87.1",
-        "vscode-codicons": "^0.0.16",
+        "vsce": "^1.93.0",
         "vscode-nls-dev": "^3.3.2",
-        "vscode-test": "^1.5.2",
         "webpack": "^5.31.2",
         "webpack-bundle-analyzer": "^4.4.1",
         "webpack-cli": "^4.6.0"
@@ -2750,7 +2781,7 @@
         "dayjs": "^1.10.4",
         "dockerfile-language-server-nodejs": "^0.4.1",
         "dockerode": "^3.2.1",
-        "fs-extra": "^9.1.0",
+        "fs-extra": "^10.0.0",
         "glob": "^7.1.6",
         "gradle-to-js": "^2.0.0",
         "handlebars": "^4.7.6",
@@ -2759,8 +2790,8 @@
         "tar": "^6.1.0",
         "tar-stream": "^2.2.0",
         "uuid": "^8.3.2",
-        "vscode-azureappservice": "^0.76.1",
-        "vscode-azureextensionui": "^0.41.3",
+        "vscode-azureappservice": "^0.84.1",
+        "vscode-azureextensionui": "^0.46.0",
         "vscode-languageclient": "^7.0.0",
         "vscode-nls": "^5.0.0",
         "vscode-tas-client": "^0.1.22",
