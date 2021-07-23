@@ -72,7 +72,6 @@ const config = {
     },
     plugins: [
         // Copy some needed resource files from external sources
-        // @ts-expect-error: Class incompatibility with CopyPlugin
         new CopyPlugin({
             patterns: [
                 './node_modules/vscode-azureextensionui/resources/**/*.svg',
@@ -91,7 +90,6 @@ const config = {
     ],
     optimization: {
         minimizer: [
-            // @ts-expect-error: Class incompatibility with TerserPlugin
             new TerserPlugin({
                 terserOptions: {
                     /* eslint-disable @typescript-eslint/naming-convention */
@@ -128,7 +126,6 @@ const config = {
 };
 
 if (debugWebpack) {
-    // @ts-expect-error: Class incompatibility with BundleAnalyzerPlugin
     config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }));
     console.log('Config:', config);
 }
